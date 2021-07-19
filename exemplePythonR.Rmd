@@ -1,0 +1,42 @@
+---
+title: "Exemple de codes entre Python et R via Reticulate"
+author: "C. Maugis-Rabusseau"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exemple 1
+
+```{r}
+library(reticulate)
+WineR=read.table("../Data/wine.txt",header=T)
+head(WineR)
+library(ggplot2)
+ggplot(WineR,aes(x = Alcool, y = Densite)) + geom_point()
+```
+
+```{python}
+WinePy = r.WineR
+WinePy.head()
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_style("darkgrid")
+plt.figure(figsize = (20, 6))
+plt.scatter(WinePy["Alcool"],WinePy["Densite"])
+```
+
+# Exemple 2
+
+```{python}
+import numpy as np
+a = {i : np.random.randn() for i in range(10)}
+a
+```
+
+```{r}
+print(as.data.frame(py$a))
+```
