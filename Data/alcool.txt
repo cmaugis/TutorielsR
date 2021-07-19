@@ -1,0 +1,41 @@
+Consommation d'alcool
+litre d'alcool pur par personne
+Consommation moyenne d'alcool*
+1970 20.4
+1971 20.6
+1972 20.7
+1973 20.8
+1974 20.3
+1975 20.5
+1976 20.5
+1977 20.2
+1978 19.5
+1979 19.1
+1980 19.5
+1981 18.7
+1982 18.5
+1983 18.2
+1984 17.3
+1985 17.3
+1986 16.9
+1987 16.5
+1988 16.4
+1989 16.3
+1990 15.9
+1991 15.8
+1992 15.7
+1993 15.4
+1994 15.2
+1995 15.0
+1996 14.9
+1997 14.5
+1998 14.8
+1999 14.4
+2000 14.0
+2001 14.2
+2002 13.9
+2003 13.4
+2004 13.0
+* Série révisée à partir de 1993.
+Champ): adultes de 15 ans et plus.
+Source: Inseee, Division conditions de vie des ménages.

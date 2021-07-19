@@ -1,0 +1,131 @@
+Population, densité et part de la population urbaine des principaux pays du monde   
+Source : Population reference bureau.
+	2007
+Pays 	Population (en millions) 	Densité moyenne (en hab./km2) 	Population urbaine (en %)
+
+Europe 	733.0 	32 	72
+Allemagne 	82.3 	230 	75
+Autriche 	8.3 	99 	67
+Belgique 	10.6 	348 	97
+Chypre 	1.0 	111 	62
+Danemark 	5.5 	127 	72
+Espagne 	45.3 	90 	77
+Estonie 	1.3 	30 	69
+Finlande 	5.3 	16 	62
+France métropolitaine et DOM 	63.6 	98 	77
+Grèce 	11.2 	85 	59
+Hongrie 	10.1 	108 	65
+Irlande 	4.4 	62 	60
+Italie 	59.3 	197 	68
+Lettonie 	2.3 	35 	68
+Lituanie 	3.4 	52 	67
+Luxembourg 	0.5 	180 	83
+Malte 	0.4 	1 288 	95
+Pays-Bas 	16.4 	394 	65
+Pologne 	38.1 	122 	62
+Portugal 	10.7 	116 	55
+République tchèque 	10.3 	131 	74
+Royaume-Uni 	61.0 	251 	90
+Slovaquie 	5.4 	110 	56
+Slovénie 	2.0 	99 	49
+Suède 	9.1 	20 	84
+Biélorussie 	9.7 	47 	73
+Bulgarie 	7.7 	69 	71
+Croatie 	4.4 	79 	56
+Moldavie 	4.0 	118 	45
+Norvège 	4.7 	12 	78
+Roumanie 	21.6 	90 	55
+Russie 	141.7 	8 	73
+Serbie 	9.5 	108 	52
+Monténégro 	0.6 	45 	64
+Suisse 	7.5 	182 	68
+Ukraine 	46.5 	77 	68
+
+
+
+
+Afrique 	944.0 	31 	37
+dont : 			
+Afrique du Sud 	47.9 	39 	53
+Algérie 	34.1 	14 	58
+Angola 	16.3 	13 	40
+Burkina Faso 	14.8 	54 	16
+Cameroun 	18.1 	38 	53
+Côte-d'Ivoire 	20.2 	63 	47
+Égypte 	73.4 	73 	43
+Éthiopie 	77.1 	70 	16
+Ghana 	23.0 	96 	44
+Kenya 	36.9 	64 	19
+Madagascar 	18.3 	31 	26
+Mali 	12.3 	10 	31
+Maroc 	31.7 	71 	55
+Mozambique 	20.4 	25 	35
+Nigeria 	144.4 	156 	44
+Ouganda 	28.5 	118 	12
+République démocratique du Congo 	62.6 	27 	32
+Soudan 	38.6 	15 	41
+Tanzanie 	38.7 	41 	23
+Tunisie 	10.2 	62 	65
+
+
+
+
+Amérique 	904.0 	22 	77
+dont : 			
+Argentine 	39.4 	14 	89
+Brésil 	189.3 	22 	81
+Canada 	32.9 	3 	81
+Chili 	16.6 	22 	88
+Colombie 	46.2 	41 	72
+Cuba 	11.2 	101 	76
+États-Unis (y c. Hawaï) 	302.2 	31 	79
+Guatemala 	13.4 	123 	47
+Haïti 	9.0 	323 	36
+Mexique 	106.5 	54 	75
+Pérou 	27.9 	22 	73
+République dominicaine 	9.4 	192 	65
+Venezuela 	27.5 	30 	88
+
+
+
+
+Asie 	4 010.0 	126 	41
+dont : 			
+Afghanistan 	31.9 	49 	20
+Arabie Saoudite 	27.6 	13 	81
+Bangladesh 	149.0 	1 035 	23
+Chine (y c. Hong Kong et Macao) 	1 324.4 	(1) 138 	(2) 44
+Corée du Nord 	23.3 	193 	60
+Corée du Sud 	48.5 	487 	82
+Inde 	1 131.9 	344 	28
+Indonésie 	231.6 	122 	42
+Irak 	29.0 	66 	67
+Iran 	71.2 	43 	67
+Israël 	7.3 	332 	92
+Japon 	127.7 	338 	79
+Kazakhstan 	15.5 	6 	57
+Malaisie 	27.2 	82 	62
+Birmanie 	49.8 	74 	29
+Népal 	27.8 	189 	14
+Ouzbékistan 	26.5 	59 	36
+Pakistan 	169.3 	213 	34
+Philippines 	88.7 	296 	48
+Sri Lanka 	20.1 	306 	15
+Syrie 	19.9 	108 	50
+Taïwan 	22.9 	636 	78
+Thaïlande 	65.7 	128 	33
+Turquie 	74.0 	94 	66
+Viêt Nam 	85.1 	257 	27
+Yémen 	22.4 	42 	26
+
+
+
+
+Océanie 	35.0 	4 	72
+dont : 			
+Australie 	21.0 	3 	91
+Nouvelle-Zélande 	4.2 	15 	86
+Monde 	6 625.0 	49 	49
+
+(1) : Chine uniquement (Hong Kong : 6 308 ; Macao : 20 346).
+(2) : Chine uniquement (Hong Kong : 100 % ; Macao : 100 %).
