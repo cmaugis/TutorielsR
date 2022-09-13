@@ -743,13 +743,21 @@ class="sourceCode r badCode"><code class="sourceCode r"><span id="cb33-1"><a hre
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Qualite =</span> <span class="fu">levels</span>(Data<span class="sc">$</span>Qualite_rec), <span class="at">value =</span> <span class="fu">table</span>(Data<span class="sc">$</span>Qualite_rec),</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">valuecumul =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">cumsum</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(Data<span class="sc">$</span>Qualite_rec))))</span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>Qualite <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(df<span class="sc">$</span>Qualite, <span class="st">&quot;bad&quot;</span>, <span class="st">&quot;medium&quot;</span>, <span class="st">&quot;good&quot;</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(Data) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> Qualite_rec)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Effectifs&quot;</span>)</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(Data) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> Qualite_rec, <span class="at">y =</span> ..prop.., <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Frequences&quot;</span>)</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">=</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Qualite, <span class="at">y =</span> valuecumul)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Fréquences cumulées&quot;</span>)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, g3, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">freq =</span> value.Freq<span class="sc">/</span><span class="fu">nrow</span>(Data))</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Data) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> Qualite_rec)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Effectifs&quot;</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Data) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> Qualite_rec, <span class="at">y =</span> ..prop.., <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Frequences&quot;</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> Qualite, <span class="at">y =</span> valuecumul)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Fréquences cumulées&quot;</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>g4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> freq, <span class="at">fill =</span> Qualite)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">width =</span> <span class="dv">1</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_polar</span>(<span class="st">&quot;y&quot;</span>, <span class="at">start =</span> <span class="dv">0</span>)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, g3, g4, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-18-1.png" width="768" /></p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Data <span class="ot">&lt;-</span> Data[, <span class="sc">-</span><span class="dv">9</span>]</span></code></pre></div>
 <!-- https://sebastiansauer.github.io/percentage_plot_ggplot2_V2/  -->
 <!--    ----------------------------------------------------------  -->
 </div>
@@ -773,8 +781,8 @@ variance, l’écart-type ….</p>
 <p>La moyenne de <span class="math inline">\(\underline{x}\)</span> :
 <span class="math inline">\(\bar{x} = \frac{1}{n} \sum_{i=1}^n
 x_i\)</span></p>
-<div class="sourceCode" id="cb34"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1] 10.48592</code></pre>
 <ul>
 <li><p>La variance <span class="math inline">\(s_x^2 =
@@ -788,11 +796,11 @@ class="math inline">\(\sqrt{var(\underline{x})}\)</span></p></li>
 <p>Attention les fonctions <code>var()</code> et <code>sd()</code>
 renvoient les valeurs corrigées de la variance et de l’écart-type
 respectivement.</p>
-<div class="sourceCode" id="cb36"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1] 1.316059</code></pre>
-<div class="sourceCode" id="cb38"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1] 1.147196</code></pre>
 </div>
 <div id="minmaxrange" class="section level5">
@@ -800,20 +808,20 @@ class="sourceCode r badCode"><code class="sourceCode r"><span id="cb38-1"><a hre
 <p>La commande <code>range()</code> renvoie respectivement le minimum et
 le maximum. On peut aussi utiliser <code>min()</code>et
 <code>max()</code></p>
-<div class="sourceCode" id="cb40"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1]  8 14</code></pre>
-<div class="sourceCode" id="cb42"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1] 8</code></pre>
-<div class="sourceCode" id="cb44"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1] 14</code></pre>
 <p>On peut alors récupérer l’étendue (<span
 class="math inline">\(max(\underline{x}) - min(\underline{x})\)</span> )
 avec le code suivant :</p>
-<div class="sourceCode" id="cb46"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">range</span>(Data<span class="sc">$</span>Alcool))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(<span class="fu">range</span>(Data<span class="sc">$</span>Alcool))</span></code></pre></div>
 <pre><code>[1] 6</code></pre>
 </div>
 <div id="secquartiles" class="section level5">
@@ -823,11 +831,11 @@ sous-échantillons de même cardinal : <span
 class="math inline">\(\sum_{i=1}^n \mathbb{1}_{x_i\geq m} \geq
 \frac{n}{2} \textrm{ et } \sum_{i=1}^n \mathbb{1}_{x_i\leq m} \geq
 \frac{n}{2}\)</span></p>
-<div class="sourceCode" id="cb48"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>[1] 10.4</code></pre>
-<div class="sourceCode" id="cb50"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(Data<span class="sc">$</span>Alcool)[<span class="dv">296</span><span class="sc">:</span><span class="dv">305</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(Data<span class="sc">$</span>Alcool)[<span class="dv">296</span><span class="sc">:</span><span class="dv">305</span>]</span></code></pre></div>
 <pre><code> [1] 10.3 10.3 10.3 10.3 10.4 10.4 10.4 10.4 10.4 10.4</code></pre>
 <p>La médiane est le deuxième des trois quartiles :</p>
 <ul>
@@ -848,38 +856,38 @@ avec <span class="math inline">\(\alpha\in]\frac{i-1}{n},
 \frac{i}{n}]\)</span> où <span class="math inline">\(x_{(1)}\leq
 x_{(2)}\leq \ldots \leq x_{(n)}\)</span> sont les valeurs ordonnées de
 la série statistique.</p>
-<div class="sourceCode" id="cb52"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>  0%  25%  50%  75% 100% 
  8.0  9.5 10.4 11.3 14.0 </code></pre>
-<div class="sourceCode" id="cb54"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(Data<span class="sc">$</span>Alcool, <span class="fl">0.9</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(Data<span class="sc">$</span>Alcool, <span class="fl">0.9</span>)</span></code></pre></div>
 <pre><code> 90% 
 12.1 </code></pre>
 <p>Pour calculer l’écart interquantile, il suffit de faire la différence
 entre les troisième et premier quantiles, à savoir</p>
-<div class="sourceCode" id="cb56"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>q.Alc <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="at">x =</span> Data<span class="sc">$</span>Alcool, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(q.Alc)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>q.Alc <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="at">x =</span> Data<span class="sc">$</span>Alcool, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(q.Alc)</span></code></pre></div>
 <pre><code>[1] 1.8</code></pre>
 <p>Les valeurs d’adjacence (cf définitions dans la sous-section <a
 href="#secgraph">boxplot</a>) sont obtenues de la manière suivante :</p>
-<div class="sourceCode" id="cb58"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> q.Alc <span class="sc">+</span> <span class="fu">diff</span>(q.Alc) <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>L</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> q.Alc <span class="sc">+</span> <span class="fu">diff</span>(q.Alc) <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>L</span></code></pre></div>
 <pre><code>[1]  6.8 14.0</code></pre>
-<div class="sourceCode" id="cb60"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valeur adjacente inférieure :</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(Data<span class="sc">$</span>Alcool[Data<span class="sc">$</span>Alcool <span class="sc">&gt;=</span> L[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valeur adjacente inférieure :</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(Data<span class="sc">$</span>Alcool[Data<span class="sc">$</span>Alcool <span class="sc">&gt;=</span> L[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>[1] 8</code></pre>
-<div class="sourceCode" id="cb62"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valeur adjacente supérieure :</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(Data<span class="sc">$</span>Alcool[Data<span class="sc">$</span>Alcool <span class="sc">&lt;=</span> L[<span class="dv">2</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># valeur adjacente supérieure :</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(Data<span class="sc">$</span>Alcool[Data<span class="sc">$</span>Alcool <span class="sc">&lt;=</span> L[<span class="dv">2</span>]])</span></code></pre></div>
 <pre><code>[1] 14</code></pre>
 <p>Par ailleurs, toutes ces informations sont stockées dans la commande
 <code>summary()</code> :</p>
-<div class="sourceCode" id="cb64"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Data<span class="sc">$</span>Alcool)</span></code></pre></div>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    8.00    9.50   10.40   10.49   11.30   14.00 </code></pre>
 <p>où sont affichés respectivement le minimum, le premier quartile, la
@@ -897,10 +905,10 @@ class="math inline">\(]a_k,a_{k+1}[\)</span> et la hauteur associée est
 <span class="math inline">\(h_k=\frac{f_k}{a_{k+1} - a_k}\)</span>.</p>
 <div id="plot-1" class="section level6">
 <h6>plot</h6>
-<div class="sourceCode" id="cb66"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Data<span class="sc">$</span>Alcool, <span class="at">main =</span> <span class="st">&quot;Histo. des effectifs&quot;</span>)</span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Data<span class="sc">$</span>Alcool, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">&quot;Histo. des fréquences&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Data<span class="sc">$</span>Alcool, <span class="at">main =</span> <span class="st">&quot;Histo. des effectifs&quot;</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(Data<span class="sc">$</span>Alcool, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">main =</span> <span class="st">&quot;Histo. des fréquences&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/hist-1.png" width="768" />
 L’option <code>breaks="Sturges"</code> donne le choix par défaut de R
 pour le nombre de classes. D’autres options sont possibles (soit on
@@ -910,38 +918,38 @@ calculer le nombre de classes parmi <code>"Sturges"</code>,
 <code>"Scott"</code> ou <code>"FD"</code> pour Freedman-Diaconis). On
 peut récupérer les informations de construction de l’histogramme en
 stockant le résultat de <code>hist()</code> dans une variable :</p>
-<div class="sourceCode" id="cb67"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">hist</span>(Data<span class="sc">$</span>Alcool, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(H)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">hist</span>(Data<span class="sc">$</span>Alcool, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(H)</span></code></pre></div>
 <pre><code>$names
 [1] &quot;breaks&quot;   &quot;counts&quot;   &quot;density&quot;  &quot;mids&quot;     &quot;xname&quot;    &quot;equidist&quot;
 
 $class
 [1] &quot;histogram&quot;</code></pre>
-<div class="sourceCode" id="cb69"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>breaks  <span class="co"># les (K+1) bordures des classes [a_k,a_{k+1}]</span></span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>counts  <span class="co"># le nombre de points dans chaque classe</span></span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>density  <span class="co"># la hauteur des K classes</span></span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>mids  <span class="co"># le milieu des K classes</span></span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>xname  <span class="co"># le nom de la variable</span></span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>equidist  <span class="co"># découpage régulier </span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>breaks  <span class="co"># les (K+1) bordures des classes [a_k,a_{k+1}]</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>counts  <span class="co"># le nombre de points dans chaque classe</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>density  <span class="co"># la hauteur des K classes</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>mids  <span class="co"># le milieu des K classes</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>xname  <span class="co"># le nom de la variable</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>H<span class="sc">$</span>equidist  <span class="co"># découpage régulier </span></span></code></pre></div>
 </div>
 <div id="ggplot-1" class="section level6">
 <h6>ggplot</h6>
-<div class="sourceCode" id="cb70"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>,</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="fl">0.5</span>)</span>
-<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">binwidth =</span> <span class="fl">0.5</span>)</span>
-<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-25-1.png" width="768" /></p>
 <div class="sourceCode" id="cb71"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>,</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-26-1.png" width="768" /></p>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>,</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="fl">0.5</span>)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">color =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">binwidth =</span> <span class="fl">0.5</span>)</span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-25-1.png" width="768" /></p>
 <div class="sourceCode" id="cb72"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">color =</span> Type)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..),</span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code></pre></div>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..), <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-26-1.png" width="768" /></p>
+<div class="sourceCode" id="cb73"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">color =</span> Type)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> ..density..),</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-27-1.png" width="768" /></p>
 </div>
 </div>
@@ -953,15 +961,15 @@ définie par <span class="math inline">\(t\in\mathbb{R}\mapsto F_n(t) =
 \frac{1}{n} \sum_{i=1}^n \mathbb{1}_{x_i\leq t}\)</span></p>
 <div id="plot-2" class="section level6">
 <h6>plot</h6>
-<div class="sourceCode" id="cb73"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(Data<span class="sc">$</span>Alcool), <span class="at">xlab =</span> <span class="st">&quot;Variable Alcool&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Fonction de répartition empirique&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(Data<span class="sc">$</span>Alcool), <span class="at">xlab =</span> <span class="st">&quot;Variable Alcool&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="at">main =</span> <span class="st">&quot;Fonction de répartition empirique&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-28-1.png" width="768" /></p>
 </div>
 <div id="ggplot-2" class="section level6">
 <h6>ggplot</h6>
-<div class="sourceCode" id="cb74"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(Alcool)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">&quot;step&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Variable Alcool&quot;</span>) <span class="sc">+</span></span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot; &quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Fonction de répartition empirique&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(Alcool)) <span class="sc">+</span> <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">&quot;step&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Variable Alcool&quot;</span>) <span class="sc">+</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot; &quot;</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">&quot;Fonction de répartition empirique&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-29-1.png" width="768" /></p>
 </div>
 </div>
@@ -988,70 +996,70 @@ class="math inline">\([v−, v+]\)</span>.</li>
 <h6>plot</h6>
 <p>Voici les boxplots pour les variables quantitatives de notre
 exemple.</p>
-<div class="sourceCode" id="cb75"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)])</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/boxplot-1.png" width="768" /></p>
 <p>Nous allons pour la suite nous concentrer sur la variable
 <em>SO2lbr</em>. En plus du graphique, on peut récupérer de la fonction
 <code>boxplot()</code> différentes informations :</p>
-<div class="sourceCode" id="cb76"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">boxplot</span>(Data<span class="sc">$</span>SO2lbr, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/boxplotNit-1.png" width="768" /></p>
 <div class="sourceCode" id="cb77"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(B)</span></code></pre></div>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">boxplot</span>(Data<span class="sc">$</span>SO2lbr, <span class="at">horizontal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/boxplotNit-1.png" width="768" /></p>
+<div class="sourceCode" id="cb78"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(B)</span></code></pre></div>
 <pre><code>$names
 [1] &quot;stats&quot; &quot;n&quot;     &quot;conf&quot;  &quot;out&quot;   &quot;group&quot; &quot;names&quot;</code></pre>
 <p>Dans <code>B$stats</code>, on retrouve les quartiles, la médiane et
 les valeurs adjacentes :</p>
-<div class="sourceCode" id="cb79"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">$</span>stats</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">$</span>stats</span></code></pre></div>
 <pre><code>     [,1]
 [1,]  2.0
 [2,] 15.5
 [3,] 27.0
 [4,] 41.0
 [5,] 73.5</code></pre>
-<div class="sourceCode" id="cb81"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(Data<span class="sc">$</span>SO2lbr)</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(Data<span class="sc">$</span>SO2lbr)</span></code></pre></div>
 <pre><code>[1] 27</code></pre>
-<div class="sourceCode" id="cb83"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="at">x =</span> Data<span class="sc">$</span>SO2lbr, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>q</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">quantile</span>(<span class="at">x =</span> Data<span class="sc">$</span>SO2lbr, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>q</span></code></pre></div>
 <pre><code>[1] 15.75 41.00</code></pre>
-<div class="sourceCode" id="cb85"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> q <span class="sc">+</span> <span class="fu">diff</span>(q) <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(Data<span class="sc">$</span>SO2lbr[Data<span class="sc">$</span>SO2lbr <span class="sc">&gt;=</span> L[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">=</span> q <span class="sc">+</span> <span class="fu">diff</span>(q) <span class="sc">*</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(Data<span class="sc">$</span>SO2lbr[Data<span class="sc">$</span>SO2lbr <span class="sc">&gt;=</span> L[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>[1] 2</code></pre>
-<div class="sourceCode" id="cb87"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(Data<span class="sc">$</span>SO2lbr[Data<span class="sc">$</span>SO2lbr <span class="sc">&lt;=</span> L[<span class="dv">2</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(Data<span class="sc">$</span>SO2lbr[Data<span class="sc">$</span>SO2lbr <span class="sc">&lt;=</span> L[<span class="dv">2</span>]])</span></code></pre></div>
 <pre><code>[1] 73.5</code></pre>
 <p><code>B$out</code> renvoie toutes les valeurs aberrantes (en dehors
 des barres inférieure et supérieure c’est à dire en dehors de
 l’intervalle <span class="math inline">\([v-,v+]\)</span>):</p>
-<div class="sourceCode" id="cb89"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">$</span>out</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">$</span>out</span></code></pre></div>
 <pre><code>[1]  89.0 105.0  85.0 112.0  79.5</code></pre>
-<div class="sourceCode" id="cb91"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>Data<span class="sc">$</span>SO2lbr[<span class="fu">which</span>(Data<span class="sc">$</span>SO2lbr <span class="sc">&lt;</span> B<span class="sc">$</span>stats[<span class="dv">1</span>] <span class="sc">|</span> Data<span class="sc">$</span>SO2lbr <span class="sc">&gt;</span> B<span class="sc">$</span>stats[<span class="dv">5</span>])]</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>Data<span class="sc">$</span>SO2lbr[<span class="fu">which</span>(Data<span class="sc">$</span>SO2lbr <span class="sc">&lt;</span> B<span class="sc">$</span>stats[<span class="dv">1</span>] <span class="sc">|</span> Data<span class="sc">$</span>SO2lbr <span class="sc">&gt;</span> B<span class="sc">$</span>stats[<span class="dv">5</span>])]</span></code></pre></div>
 <pre><code>[1]  89.0 105.0  85.0 112.0  79.5</code></pre>
 </div>
 <div id="ggplot-3" class="section level6">
 <h6>ggplot</h6>
 <p>Représentation des boxplot avec ggplot2 :</p>
-<div class="sourceCode" id="cb93"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)])) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
-<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> valeur))</span>
-<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>)])) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
-<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> valeur))</span>
-<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-32-1.png" width="768" /></p>
-<p>Représentation des violin plots :</p>
 <div class="sourceCode" id="cb94"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)])) <span class="sc">+</span> <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)])) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> valeur))</span>
-<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>)])) <span class="sc">+</span> <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>)])) <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
 <span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> valeur))</span>
 <span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-32-1.png" width="768" /></p>
+<p>Représentation des violin plots :</p>
+<div class="sourceCode" id="cb95"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)])) <span class="sc">+</span> <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> valeur))</span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="fu">gather</span>(<span class="at">key =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">value =</span> <span class="st">&quot;valeur&quot;</span>, Data[, <span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>)])) <span class="sc">+</span> <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">x =</span> variable,</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> valeur))</span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-33-1.png" width="768" /></p>
 </div>
 </div>
@@ -1074,14 +1082,14 @@ class="math inline">\(\underline{y}=(y_1,\ldots,y_n)\)</span>.</p>
 <h4 class="tabset"></h4>
 <div id="plot-4" class="section level5">
 <h5>plot</h5>
-<div class="sourceCode" id="cb95"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Data<span class="sc">$</span>Alcool, Data<span class="sc">$</span>Densite, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">xlab =</span> <span class="st">&quot;Alcool&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Densite&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Data<span class="sc">$</span>Alcool, Data<span class="sc">$</span>Densite, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">xlab =</span> <span class="st">&quot;Alcool&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Densite&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-34-1.png" width="768" /></p>
 </div>
 <div id="ggplot-4" class="section level5">
 <h5>ggplot</h5>
-<div class="sourceCode" id="cb96"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">y =</span> Densite)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">y =</span> Densite)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-35-1.png" width="768" /></p>
 </div>
 </div>
@@ -1105,17 +1113,17 @@ cor(\underline{x},\underline{y}) =
 <p>A l’aide de la fonction <code>corrplot()</code> (issue du package du
 même nom) on représente ici la matrice des corrélations entre les
 variables quantitatives de notre jeu de données:</p>
-<div class="sourceCode" id="cb97"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]), <span class="at">method =</span> <span class="st">&quot;ellipse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]), <span class="at">method =</span> <span class="st">&quot;ellipse&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-36-1.png" width="768" /></p>
 </div>
 <div id="ggcorrplot" class="section level5">
 <h5><code>ggcorrplot()</code></h5>
-<div class="sourceCode" id="cb98"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorrplot</span>(<span class="fu">cor</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]), <span class="at">method =</span> <span class="st">&quot;circle&quot;</span>)</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-37-1.png" width="768" /></p>
 <div class="sourceCode" id="cb99"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorrplot</span>(<span class="fu">cor</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]), <span class="at">hc.order =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="st">&quot;lower&quot;</span>, <span class="at">lab =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorrplot</span>(<span class="fu">cor</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]), <span class="at">method =</span> <span class="st">&quot;circle&quot;</span>)</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-37-1.png" width="768" /></p>
+<div class="sourceCode" id="cb100"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorrplot</span>(<span class="fu">cor</span>(Data[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]), <span class="at">hc.order =</span> <span class="cn">TRUE</span>, <span class="at">type =</span> <span class="st">&quot;lower&quot;</span>, <span class="at">lab =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-38-1.png" width="768" /></p>
 </div>
 </div>
@@ -1127,15 +1135,15 @@ nuage de points de ces deux variables s’aligner sur une droite de pente
 négative :</p>
 <div id="plot-5" class="section level5">
 <h5>plot</h5>
-<div class="sourceCode" id="cb100"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Densite <span class="sc">~</span> Alcool, <span class="at">data =</span> Data, <span class="at">pch =</span> <span class="dv">20</span>)</span>
-<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Densite <span class="sc">~</span> Alcool, <span class="at">data =</span> Data), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Densite <span class="sc">~</span> Alcool, <span class="at">data =</span> Data, <span class="at">pch =</span> <span class="dv">20</span>)</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Densite <span class="sc">~</span> Alcool, <span class="at">data =</span> Data), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-39-1.png" width="768" /></p>
 </div>
 <div id="ggplot-5" class="section level5">
 <h5>ggplot</h5>
-<div class="sourceCode" id="cb101"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">y =</span> Densite)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">y =</span> Densite)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-40-1.png" width="768" /></p>
 </div>
 </div>
@@ -1187,19 +1195,19 @@ pour visualiser la liaison potentielle entre les deux variables.</p>
 <h4 class="tabset"></h4>
 <div id="plot-6" class="section level5">
 <h5>plot</h5>
-<div class="sourceCode" id="cb102"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Alcool <span class="sc">~</span> Qualite, <span class="at">data =</span> Data)</span>
-<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Alcool <span class="sc">~</span> Type, <span class="at">data =</span> Data)</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Alcool <span class="sc">~</span> Qualite, <span class="at">data =</span> Data)</span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Alcool <span class="sc">~</span> Type, <span class="at">data =</span> Data)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-41-1.png" width="768" /></p>
 </div>
 <div id="ggplot-6" class="section level5">
 <h5>ggplot</h5>
-<div class="sourceCode" id="cb103"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Qualite, <span class="at">y =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span>
-<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Qualite, <span class="at">y =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_violin</span>()</span>
-<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">fill =</span> Qualite)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
-<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, g3, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Qualite, <span class="at">y =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Qualite, <span class="at">y =</span> Alcool)) <span class="sc">+</span> <span class="fu">geom_violin</span>()</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">=</span> <span class="fu">ggplot</span>(Data, <span class="fu">aes</span>(<span class="at">x =</span> Alcool, <span class="at">fill =</span> Qualite)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>)</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(g1, g2, g3, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-42-1.png" width="768" /></p>
 </div>
 </div>
@@ -1226,9 +1234,9 @@ class="math display">\[
 n_{j,.}=\sum_{k=1}^K n_{j,k}\ \ \ \textrm{   et   } \ \ \
 n_{.,k}=\sum_{j=1}^J n_{j,k}
 \]</span></p>
-<div class="sourceCode" id="cb104"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>table.cont <span class="ot">=</span> <span class="fu">table</span>(Data<span class="sc">$</span>Qualite, Data<span class="sc">$</span>Type)</span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>table.cont</span></code></pre></div>
+<div class="sourceCode" id="cb105"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a>table.cont <span class="ot">=</span> <span class="fu">table</span>(Data<span class="sc">$</span>Qualite, Data<span class="sc">$</span>Type)</span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>table.cont</span></code></pre></div>
 <pre><code>        
          blanc rouge
   bad       17     2
@@ -1247,23 +1255,23 @@ représentation des profils-lignes <span class="math display">\[
 \]</span></p>
 <div id="plot-7" class="section level5">
 <h5>plot</h5>
-<div class="sourceCode" id="cb106"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Data<span class="sc">$</span>Qualite, Data<span class="sc">$</span>Type))</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-44-1.png" width="768" /></p>
 <div class="sourceCode" id="cb107"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Data<span class="sc">$</span>Type, Data<span class="sc">$</span>Qualite))</span></code></pre></div>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Data<span class="sc">$</span>Qualite, Data<span class="sc">$</span>Type))</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-44-1.png" width="768" /></p>
+<div class="sourceCode" id="cb108"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(<span class="fu">table</span>(Data<span class="sc">$</span>Type, Data<span class="sc">$</span>Qualite))</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-44-2.png" width="768" /></p>
 </div>
 <div id="ggplot-7" class="section level5">
 <h5>ggplot</h5>
-<div class="sourceCode" id="cb108"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
-<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Data) <span class="sc">+</span> <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Type, Qualite), <span class="at">fill =</span> Qualite),</span>
-<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Qualite&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Type&quot;</span>)</span></code></pre></div>
-<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-45-1.png" width="768" /></p>
 <div class="sourceCode" id="cb109"><pre
-class="sourceCode r badCode"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Data) <span class="sc">+</span> <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Qualite, Type)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Type&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Qualite&quot;</span>)</span></code></pre></div>
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)</span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Data) <span class="sc">+</span> <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Type, Qualite), <span class="at">fill =</span> Qualite),</span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Qualite&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Type&quot;</span>)</span></code></pre></div>
+<p><img src="Part3-StatR_files/figure-html/unnamed-chunk-45-1.png" width="768" /></p>
+<div class="sourceCode" id="cb110"><pre
+class="sourceCode r badCode"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Data) <span class="sc">+</span> <span class="fu">geom_mosaic</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">product</span>(Qualite, Type)), <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Type&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Qualite&quot;</span>)</span></code></pre></div>
 <p><img src="Part3-StatR_files/figure-html/unnamed-chunk-45-2.png" width="768" /></p>
 </div>
 </div>
